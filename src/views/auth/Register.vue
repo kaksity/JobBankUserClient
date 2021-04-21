@@ -30,15 +30,39 @@
             >
               <v-flex class="frame">
                 <h1 v-if="!isMobile">
-                  Log In
+                  Create a Profile
                 </h1>
                 <v-form>
+                  <v-text-field
+                    v-model="FirstName"
+                    prepend-icon="person"
+                    clearable
+                    label="First Name"
+                    @keyup.enter.native="login"
+                    required
+                  ></v-text-field>
+                  <v-text-field
+                    v-model="LastName"
+                    prepend-icon="person"
+                    clearable
+                    @keyup.enter.native="login"
+                    label="Last Name"
+                    required
+                  ></v-text-field>
                   <v-text-field
                     v-model="EmailAddress"
                     prepend-icon="person"
                     clearable
                     label="Email Address"
                     @keyup.enter.native="login"
+                    required
+                  ></v-text-field>
+                  <v-text-field
+                    v-model="PhoneNumber"
+                    prepend-icon="lock"
+                    @keyup.enter.native="login"
+                    clearable
+                    label="Phone Number"
                     required
                   ></v-text-field>
                   <v-text-field
@@ -49,6 +73,16 @@
                     :type="showPwd ? 'text' : 'password'"
                     @click:append="showPwd = !showPwd"
                     label="Password"
+                    required
+                  ></v-text-field>
+                  <v-text-field
+                    v-model="ConfirmPassword"
+                    prepend-icon="lock"
+                    @keyup.enter.native="login"
+                    :append-icon="showPwd ? 'visibility_off' : 'visibility'"
+                    :type="showPwd ? 'text' : 'password'"
+                    @click:append="showPwd = !showPwd"
+                    label="Confirm Password"
                     required
                   ></v-text-field>
                   <v-layout
@@ -62,27 +96,17 @@
                         flat
                         small
                         color="primary"
-                        @click="redirectCreateANewAccount"
+                        @click="redirectLoginToAnAccount"
                       >
-                        Create a New Account
+                        Login into an account
                       </v-btn>
-                      <v-btn
-                        flat
-                        small
-                        color="primary"
-                        @click="redirectForgotPassword"
-                      >
-                        {{ $t('common.forgetPassword') }}
-                      </v-btn>
-                    </v-flex>
-                    <v-flex>
                       <v-btn
                         :loading="loginLoading"
-                        @click="login"
                         color="primary"
+                        @click="Register"
                       >
                         <span slot="loader">Loading...</span>
-                          Log In
+                          Create Account
                       </v-btn>
                     </v-flex>
                   </v-layout>
@@ -120,8 +144,12 @@ export default {
     return {
       currentYear: new Date().getFullYear(),
       showPwd: false,
+      FirstName: '',
+      LastName: '',
       EmailAddress: '',
+      PhoneNumber: '',
       Password: '',
+      ConfirmPassword: '',
       loginLoading: false,
     };
   },
@@ -131,43 +159,92 @@ export default {
     },
   },
   methods: {
-    login() {
-
-      if (this.EmailAddress === '') {
-       this.$message({
-         type: 'error',
-         text: 'Email Address is required'
-       });
-       return;
-      }
-      else if (this.Password === '') {
+    Register() {
+      if (this.FirstName === '') {
+        this.$message({
+          type: 'error',
+          text: 'First Name is required'
+        });
+        return;
+      } else if (this.LastName === '') {
+        this.$message({
+          type: 'error',
+          text: 'Last Name is required'
+        });
+        return;
+      } else if (this.EmailAddress === '') {
+        this.$message({
+          type: 'error',
+          text: 'Email Address is required'
+        });
+        return;
+      } else if (this.PhoneNumber === '') {
+        this.$message({
+          type: 'error',
+          text: 'Phone Number is required'
+        });
+        return;
+      } else if (this.Password === '') {
         this.$message({
           type: 'error',
           text: 'Password is required'
         });
         return;
-      } else if (this.Password.length < 8) {
+      } else if (this.ConfirmPassword === '') {
         this.$message({
           type: 'error',
-          text: 'Invalid Login Credentials'
+          text: 'Confirm Password is required'
         });
         return;
       }
 
+      // Check if the phone number length is 11
+      if (this.PhoneNumber.length !== 11) {
+        this.$message({
+          type: 'error',
+          text: 'Phone Number must be 11 digits'
+        });
+        return;
+      }
+
+      // Check if the length of the password is greater than 8
+      if (this.Password.length < 8) {
+        this.$message({
+          type: 'error',
+          text: 'Password length must be 8 or more characters'
+        });
+        return;
+      }
+
+      // Check if the Password Matches Confirm Password
+      if (this.Password !== this.ConfirmPassword) {
+        this.$message({
+          type: 'error',
+          text: 'Password must match Confirm Password'
+        });
+        return;
+      }
+
+      //this.LoadingStatus = true
+
+      // Make a form
       const Form = {
+        first_name: this.FirstName,
+        last_name: this.LastName,
         email_address: this.EmailAddress,
+        phone_number: this.PhoneNumber,
         password: this.Password,
-      };
+        confirm_password: this.ConfirmPassword,
+      }
 
       this.loginLoading = true;
-
       this.$store
-        .dispatch('Login', Form)
+        .dispatch('Register',Form)
         .then(() => {
           try {
-            this.$router.push({ name: 'Index' });
+            this.$router.push({ name: 'Login' });
           } catch (err) {
-            this.$router.push({ path: '/' });
+            this.$router.push({ path: '/login' });
           }
         })
         .catch((err) => {
@@ -180,14 +257,8 @@ export default {
           this.loginLoading = false;
         });
     },
-    redirectForgotPassword() {
-      console.log('redirectForgotPassword');
-      this.$message({
-        type: 'info',
-        text: 'Ahem: Please add redirect function',
-      });
-    },
-    redirectCreateANewAccount() {
+    redirectLoginToAnAccount() {
+      //alert();
       this.$router.push({ path: '/register' });
     },
   },

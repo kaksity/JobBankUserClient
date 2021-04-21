@@ -1,15 +1,10 @@
 import Vue from 'vue';
 import Router from 'vue-router';
 import Login from '@/views/auth/TheLogin.vue';
+import Register from '@/views/auth/Register.vue';
 import Layout from '@/views/layouts/AppLayout.vue';
 import LayoutWithoutSidebar from '@/views/layouts/AppLayoutWithoutSidebar.vue';
 
-import components from './modules/components';
-import widgets from './modules/widgets';
-import uiComponents from './modules/ui-components';
-import tables from './modules/tables';
-import charts from './modules/charts';
-import excel from './modules/excel';
 
 Vue.use(Router);
 
@@ -36,8 +31,16 @@ export default new Router({
       },
     },
     {
+      path: '/register',
+      name: 'Register',
+      component: Register,
+      meta: {
+        hidden: true,
+      },
+    },
+    {
       path: '/',
-      redirect: { name: 'Dashboard' },
+      redirect: { name: 'Profile' },
       meta: {
         hidden: true,
       },
@@ -46,38 +49,43 @@ export default new Router({
       path: '/index',
       name: 'Index',
       component: Layout,
-      redirect: { name: 'Dashboard' },
+      redirect: { name: 'Profile' },
       meta: {
         hidden: false,
         hasMulSub: false,
       },
       children: [
         {
-          path: '/dashboard',
-          name: 'Dashboard',
-          component: () => import('@/views/dashboard/TheIndex.vue'),
+          path: '/profile',
+          name: 'Profile',
+          component: () => import('@/views/profile/Index.vue'),
           meta: {
             icon: 'dashboard',
           },
         },
-        components,
-        widgets,
-        uiComponents,
-        tables,
-        charts,
-        excel,
-      ],
-    },
-    {
-      path: '/admin',
-      component: LayoutWithoutSidebar,
-      redirect: { name: 'Admin' },
-      children: [
         {
-          path: '/admin',
-          name: 'Admin',
-          component: () => import('@/views/admin/VHomepage.vue'),
-          meta: {},
+          path: '/qualifications',
+          name: 'Qualification',
+          component: () => import('@/views/qualifications/Qualification.vue'),
+          meta: {
+            icon: 'dashboard',
+          },
+        },
+        {
+          path: '/work-experiences',
+          name: 'Work Experience',
+          component: () => import('@/views/work-experience/WorkExperience.vue'),
+          meta: {
+            icon: 'dashboard',
+          },
+        },
+        {
+          path: '/additional-skills',
+          name: 'Additional Skills',
+          component: () => import('@/views/additional-skills/AdditionalSkills.vue'),
+          meta: {
+            icon: 'dashboard',
+          },
         },
       ],
     },

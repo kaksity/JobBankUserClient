@@ -19,54 +19,14 @@
           :to="{ name : 'Dashboard' }"
           class="toolbar-title"
         >
-          <span>VUE-ADMIN-VUETIFY</span>
+          <span>BORNO JOB BANK</span>
         </router-link>
       </v-toolbar-title>
       <v-spacer></v-spacer>
 
-      <!-- menu -->
-      <navbar-menu />
-
       <v-spacer></v-spacer>
 
       <v-toolbar-items>
-        <v-menu
-          attach
-          offset-y
-          bottom
-          left
-          nudge-bottom="13"
-          origin="center center"
-          :close-on-content-click="false"
-          transition="scale-transition"
-        >
-          <v-btn
-            icon
-            flat
-            slot="activator"
-          >
-            <v-badge
-              v-if="badgeLen"
-              color="red"
-              overlap
-            >
-              <span slot="badge">{{ badgeLen }}</span>
-              <v-icon medium>notifications</v-icon>
-            </v-badge>
-            <v-icon
-              v-else
-              medium
-            >notifications</v-icon>
-          </v-btn>
-          <notification-list @unreadLen="(val) => badgeLen = val" />
-        </v-menu>
-        <v-btn
-          class="hidden-xs-only"
-          icon
-          large
-        >
-          <app-screenfull fill="#333539" />
-        </v-btn>
         <v-menu
           attach
           offset-y
@@ -96,11 +56,6 @@
             <v-icon>more_vert</v-icon>
           </v-btn>
           <v-list>
-            <v-list-tile class="hidden-sm-and-up">
-              <v-list-tile-title>
-                <base-langbar />
-              </v-list-tile-title>
-            </v-list-tile>
             <v-list-tile @click="toGithub">
               <v-list-tile-avatar>
                 <svg-icon
@@ -136,7 +91,6 @@
             </v-list-tile>
           </v-list>
         </v-menu>
-        <base-langbar v-if="$vuetify && $vuetify.breakpoint.smAndUp" />
       </v-toolbar-items>
     </v-toolbar>
   </header>
@@ -144,8 +98,6 @@
 
 <script>
 import { mapState } from 'vuex';
-import AppScreenfull from '@/components/widgets/AppScreenfull.vue';
-import BaseLangbar from '@/components/widgets/BaseLangbar.vue';
 import NotificationList from '@/components/widgets/NotificationList.vue';
 import NavbarMenu from './menus/TheIndex.vue';
 
@@ -153,8 +105,6 @@ export default {
   name: 'AppNavbar',
   components: {
     NavbarMenu,
-    AppScreenfull,
-    BaseLangbar,
     NotificationList,
   },
   props: {

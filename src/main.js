@@ -52,13 +52,13 @@ Vue.filter('formatDate', (v, isUTC = true, dateFormat = 'YYYY-MM-DD HH:mm:ss') =
   return '';
 });
 
-const supportedLangs = ['zh-CN', 'en'];
+const supportedLangs = ['en'];
 const userLocale = navigator.language || navigator.userLanguage;
 
 Vue.router.beforeEach((to, from, next) => {
   NProgress.start();
   const { token } = store.getters;
-  if (to.path === '/login') {
+  if (to.path === '/login' || to.path === '/register') {
     store.dispatch('logout');
     next();
     NProgress.done();
@@ -66,18 +66,7 @@ Vue.router.beforeEach((to, from, next) => {
     next(`/login?redirect=${to.fullPath}`);
     NProgress.done();
   } else {
-    const { me } = store.getters;
-    if (!me || !me.name) {
-      store.dispatch('readMe', { token })
-        .then(() => {
-          next();
-        })
-        .catch(() => {
-          next('/login');
-        });
-    } else {
-      next();
-    }
+    next();
   }
 });
 Vue.router.beforeEach((to, from, next) => {
@@ -99,7 +88,7 @@ Vue.router.afterEach(() => {
 });
 
 i18n.locale = localStorage.getItem('VUE-ADMIN-VUETIFY_LANGUAGE')
-  || (supportedLangs.includes(userLocale) ? userLocale : 'zh-CN');
+  || (supportedLangs.includes(userLocale) ? userLocale : 'en');
 Vue.prototype.$locale.use(i18n.locale);
 
 Vue.config.productionTip = false;

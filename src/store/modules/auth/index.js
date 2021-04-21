@@ -3,41 +3,42 @@ import * as types from './types';
 
 const state = {
   token: localStorage.getItem('token') || null,
-  me: {},
+  me: {}
 };
 
 const getters = {};
 
 const actions = {
-  login({ commit, dispatch }, params) {
-    return API.login(params).then((value) => {
-      commit(types.LOGIN, { value });
-      const token = value.data.access_token;
+  Login({ commit, dispatch }, params) {
+    return API.Login(params).then((Value) => {
+
+      commit('LoginMutation', Value);
+      const token = Value.data.token;
       localStorage.setItem('token', token);
-      dispatch('readMe', { token });
+      //dispatch('readMe', { token });
+      return Value;
+    }, res => Promise.reject(res));
+  },
+  Register({ commit, dispatch }, params) {
+    return API.Register(params).then((value) => {
       return value;
     }, res => Promise.reject(res));
   },
-  readMe({ commit }, params) {
-    return API.readMe(params).then((value) => {
-      commit(types.READ_ME, { value });
-    }, res => Promise.reject(res));
-  },
+  // readMe({ commit }, params) {
+  //   return API.readMe(params).then((value) => {
+  //     commit(types.READ_ME, { value });
+  //   }, res => Promise.reject(res));
+  // },
   logout({ commit }) {
-    return API.logout().then(() => {
-      commit(types.LOGOUT);
-    }, res => Promise.reject(res));
+    commit('LogOutMutation');
   },
 };
 
 const mutations = {
-  [types.READ_ME](state, { value }) {
-    state.me = value.data;
+  LoginMutation(state, Value) {
+    state.token = Value.data.token;
   },
-  [types.LOGIN](state, { value }) {
-    state.token = value.data.access_token;
-  },
-  [types.LOGOUT](state) {
+  LogOutMutation(state) {
     localStorage.removeItem('token');
     state.token = null;
   },
