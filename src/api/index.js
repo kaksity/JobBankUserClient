@@ -40,4 +40,9 @@ export default new function API() {
   this.GetProfile = () => request.get('/profile');
   this.UpdateProfile = (params) => request.put('/profile', params);
   this.PostQualifications = (params) => request.post('/qualifications', params);
+  this.GetAdditionalSkills = () => request.get('/additional-skills');
+  this.GetSkillSet = () => request.get('/skills');
+  this.PostAdditionalSkills = (params) => request.post('/additional-skills', params);
+  this.DeleteAdditionalSkills = (id) => request.delete(`/additional-skills/${id}`);
+  this.PostWorkExperience = (params) => request.post('/work-experiences', params);
 }();

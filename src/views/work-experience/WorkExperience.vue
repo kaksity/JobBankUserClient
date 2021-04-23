@@ -24,8 +24,6 @@
                   >
                     <v-text-field
                       v-model="EmployerName"
-                      outlined
-                      color="#fb246a"
                       label="Name of Employer"
                     />
                   </v-flex>
@@ -39,8 +37,6 @@
                   >
                     <v-text-field
                       v-model="JobTitle"
-                      outlined
-                      color="#fb246a"
                       label="Job Title"
                     />
                   </v-flex>
@@ -53,8 +49,6 @@
                   >
                     <v-select
                       v-model="CurrentlyWorking"
-                      outlined
-                      color="#fb246a"
                       label="Are you still there"
                       :items="AreYouStillThereList"
                       item-value="name"
@@ -83,8 +77,6 @@
                           v-model="StartWorkingDate"
                           label="When did you stop working there"
                           readonly
-                          color="#fb246a"
-                          outlined
                           v-bind="attrs"
                           v-on="on"
                         />
@@ -97,14 +89,12 @@
                         <v-spacer />
                         <v-btn
                           text
-                          color="#fb246a"
                           @click="StartWorkingMenu = false"
                         >
                           Cancel
                         </v-btn>
                         <v-btn
                           text
-                          color="#fb246a"
                           @click="$refs.StartWorkingMenu.save(StartWorkingDate)"
                         >
                           Ok
@@ -132,8 +122,6 @@
                           v-model="StopWorkingDate"
                           label="When did you stop working there"
                           readonly
-                          color="#fb246a"
-                          outlined
                           v-bind="attrs"
                           v-on="on"
                         />
@@ -146,14 +134,12 @@
                         <v-spacer />
                         <v-btn
                           text
-                          color="#fb246a"
                           @click="StopWorkingMenu = false"
                         >
                           Cancel
                         </v-btn>
                         <v-btn
                           text
-                          color="#fb246a"
                           @click="$refs.StopWorkingMenu.save(StopWorkingDate)"
                         >
                           Ok
@@ -171,8 +157,6 @@
                   >
                     <v-textarea
                       v-model="JobDescription"
-                      outlined
-                      color="#fb246a"
                       label="Job Description"
                     />
                   </v-flex>
@@ -184,8 +168,6 @@
                   >
                     <v-textarea
                       v-model="AdditionalInformation"
-                      outlined
-                      color="#fb246a"
                       label="Additional Information"
                     />
                   </v-flex>
@@ -244,27 +226,20 @@
 
 <script>
 export default {
-  name: 'VBarIndex',
+  name: 'WorkExperience',
   data() {
     return {
-      AdmissionDate: new Date().toISOString().substr(0, 10),
-      GraduationDate: new Date().toISOString().substr(0, 10),
-      AdmissionMenu: false,
-      GraduationMenu: false,
+      StartWorkingDate: new Date().toISOString().substr(0, 10),
+      StopWorkingDate: new Date().toISOString().substr(0, 10),
+      StartWorkingMenu: false,
+      StopWorkingMenu: false,
       AreYouStillThereList: [{ name: 'YES', value: 'Yes' }, { name: 'NO', value: 'No' }],
-      Grade: '',
-      GradeList: [{ text: 'First Class', value: 'FIRST CLASS' }, { text: 'Upper Credit', value: 'UPPER CREDIT' }, { text: 'Lower Credit', value: 'LOWER CREDIT' }, { text: 'Credit', value: 'CREDIT' }, { text: 'Pass', value: 'PASS' }, { text: 'Second Class Upper', value: 'SECOND CLASS UPPER' }, { text: 'Second Class Lower', value: 'SECOND CLASS LOWER' }],
-      Dialog: false,
-      Color: '',
-      Message: '',
-      EducationLevel: '',
-      EducationLevelList: [],
-      QualificationsList: [],
-      SchoolName: '',
-      CourseName: '',
-      Completed: '',
-      File: null,
-      AdditionalInfo: '',
+      EmployerName: '',
+      JobTitle: '',
+      CurrentlyWorking: '',
+      JobDescription: '',
+      AdditionalInformation: '',
+      WorkExperiencesList: [],
 
       headers: [
         {
@@ -302,93 +277,93 @@ export default {
     };
   },
   methods: {
-    setFile (e) {
-      // this.File = e
-      this.File = e
-    },
-    FillHighestQualificationSelect() {
-      this.$api.GetHighestQualification().then((res) => {
-        this.EducationLevelList = res.data;
-      }).catch((err) => {
+    AddWorkExperience () {
+      if (this.EmployerName === '') {
         this.$message({
           type: 'error',
-          text: err.message
-        });
-      });
-    },
-    AddQualification () {
-      if (this.SchoolName === '') {
-        this.$message({
-          type: 'error',
-          text: 'School Name is required'
+          text: 'Employer Name is required'
         });
         return;
-      } else if (this.CourseName === '') {
+      } else if (this.JobTitle === '') {
         this.$message({
           type: 'error',
-          text: 'Course Name is required'
+          text: 'Employer Name is required'
         });
         return;
-      } else if (this.EducationLevel === '') {
+      } else if (this.CurrentlyWorking === '') {
         this.$message({
           type: 'error',
-          text: 'Qualification is required'
+          text: 'Employer Name is required'
         });
         return;
-      } else if (this.Completed === '') {
+      } else if (this.JobDescription === '') {
         this.$message({
           type: 'error',
-          text: 'Completed Status is required'
+          text: 'Employer Name is required'
         });
         return;
-      } else if (this.Grade === '') {
+      } else if (this.StartWorkingDate === '') {
         this.$message({
           type: 'error',
-          text: 'Grade is required'
+          text: 'Employer Name is required'
         });
         return;
-      } else if (this.File === null) {
+      } else if (this.StopWorkingDate === '') {
         this.$message({
           type: 'error',
-          text: 'Qualification Photo is required'
-        });
-        return;
-      } else if (this.File.size > 1048576) {
-        this.$message({
-          type: 'error',
-          text: 'Qualification Photo must be less than 1mb'
+          text: 'Employer Name is required'
         });
         return;
       }
 
-      const Fd = new FormData()
+      const Form = {
+        additional_information: this.AdditionalInformation,
+        current_work: this.CurrentlyWorking,
+        description: this.JobDescription,
+        end_date: this.StopWorkingDate,
+        job_title: this.JobTitle,
+        organisation: this.EmployerName,
+        start_date: this.StartWorkingDate,
+      }
 
-      Fd.append('course_name', this.CourseName)
-      Fd.append('school_name', this.SchoolName)
-      Fd.append('education_level', this.EducationLevel)
-      Fd.append('completed', this.Completed)
-      Fd.append('grade', this.Grade)
-      Fd.append('admission_date', this.AdmissionDate)
-      Fd.append('graduation_date', this.GraduationDate)
-      Fd.append('file', this.File)
-      Fd.append('additional_info', this.AdditionalInfo)
-
-      this.$api.PostQualifications(Fd).then(res => {
+      this.$api.PostWorkExperience(Form).then(res => {
         this.$message({
           type: 'success',
-          message: res.data.message
+          text: res.message
         });
+
       }).catch((err) => {
         this.$message({
           type: 'error',
           text: err.data.message
         });
       }).finally(() => {
+      });
+    },
+
+    DeleteWorkExperience (id) {
+      if (id === '') {
+        return
+      }
+      this.LoadingStatus = true
+      deleteWorkExperiences(id).then(res => {
+        this.LoadingStatus = false
+        if (res.success === false) {
+          this.Color = 'error'
+        } else {
+          this.Color = 'success'
+        }
+
+        this.Message = res.message
+        this.Dialog = true
       })
+
+      setTimeout(() => {
+        location.reload()
+      }, 1000)
     },
   },
   created(){
-    this.FillHighestQualificationSelect();
   }
 };
 </script>

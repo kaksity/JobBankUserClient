@@ -23,12 +23,10 @@
                   >
                     <v-select
                       v-model="Skill"
-                      :items="SkillList"
+                      :items="SkillSetList"
                       item-text="name"
                       item-value="id"
                       label="Additional Skill Set"
-                      color="#fb246a"
-                      outlined
                       @change="changeSkill"
                     />
                   </v-flex>
@@ -40,8 +38,6 @@
                     <v-text-field
                       v-model="OtherSkillName"
                       label="Specify Other Skill"
-                      color="#fb246a"
-                      outlined
                     />
                   </v-flex>
                   <v-flex
@@ -82,13 +78,8 @@
                 slot-scope="props"
               >
                 <td>{{ props.item.name }}</td>
-                <td>{{ props.item.age }}</td>
-                <td>{{ props.item.address }}</td>
                 <td>
-                  <svg-icon
-                    class="drag-handler"
-                    icon-class="drag"
-                  />
+                  <v-icon @click="DeleteAdditionalSkill(props.item.id)">delete</v-icon>
                 </td>
               </template>
             </v-data-table>
@@ -101,18 +92,14 @@
 
 <script>
 export default {
-  name: 'VBarIndex',
+  name: 'AdditionalSkills',
   data() {
     return {
       Skill: '',
-      Message: 'I am Programmer',
       OtherSkillName: '',
       SpecifyOthers: false,
       SkillSetList: [],
       SkillList: [],
-      Dialog: false,
-      Color: '',
-      LoadingStatus: false,
 
       headers: [
         {
@@ -139,65 +126,96 @@ export default {
         this.SpecifyOthers = true
       }
     },
+    FillSkillSetSelect() {
+      this.$api.GetSkillSet().then((res) => {
+
+        this.SkillSetList = res.data;
+      }).catch((err) => {
+        this.$message({
+          type: 'error',
+          text: err.message
+        });
+      });
+    },
+    FillAdditionalSkillsTable() {
+      this.$api.GetAdditionalSkills().then((res) => {
+        this.list = res.data;
+      }).catch((err) => {
+        this.$message({
+          type: 'error',
+          text: err.data.message
+        });
+      });
+    },
     AddSkill () {
       // Check if the a Skill has been selected
-      if (this.Skill !== '') {
-        let form = {
-
-        }
-        if (this.Skill !== '19') {
-          form = {
-            id: this.Skill,
-            name: '',
-          }
-        } else if (this.Skill === '19' && this.OtherSkillName === '') {
-          // Fix this to display a dialog box
-          this.$message({
-            type: 'error',
-            text: 'Specify Other Skills'
-          });
-        } else {
-          form = {
-            id: this.Skill,
-            name: this.OtherSkillName,
-          }
-        }
-
-        this.LoadingStatus = true
-        postAdditionalSkills(form).then(res => {
-          this.LoadingStatus = false
-          if (res.success === true) {
-            this.Color = 'success'
-          } else {
-            this.Color = 'error'
-          }
-
-          this.Message = res.message
-          this.Dialog = true
-        })
-
-        setTimeout(() => {
-          location.reload()
-        }, 1000)
+      if (this.Skill === '') {
+        this.$message({
+          type: 'error',
+          text: 'Skills Set is required'
+        });
+        return;
       }
-    },
-    deleteAdditionalSkill (i) {
-      deleteAdditionalSkills(i).then(res => {
-        if (res.success === true) {
-          this.Color = 'success'
-        } else {
-          this.Color = 'error'
-        }
 
-        this.Message = res.message
-        this.Dialog = true
-      })
-      setTimeout(() => {
-        location.reload()
-      }, 1000)
+      if (this.Skill === '19' && this.OtherSkillName === '') {
+       this.$message({
+         type: 'error',
+         text: 'Specify Other Skills'
+       });
+       return;
+      }
+
+      let Form = {};
+
+      if (this.Skill !== '19') {
+        Form = {
+          id: this.Skill,
+          name: '',
+        }
+      } else {
+        Form = {
+          id: this.Skill,
+          name: this.OtherSkillName,
+        }
+      }
+
+      this.$api.PostAdditionalSkills(Form).then(res => {
+        this.$message({
+          type: 'success',
+          text: res.message
+        });
+        this.FillAdditionalSkillsTable();
+        this.ClearFields();
+      }).catch((err) => {
+        this.$message({
+          type: 'error',
+          text: err.data.message
+        });
+      });
+    },
+    ClearFields() {
+      this.Skill = '';
+      this.OtherSkillName = '';
+    },
+    DeleteAdditionalSkill (i) {
+
+      this.$api.DeleteAdditionalSkills(i).then(res => {
+        this.$message({
+          type: 'success',
+          text: res.message
+        });
+        this.FillAdditionalSkillsTable();
+      }).catch((err) => {
+        this.$message({
+          type: 'error',
+          text: err.data.message
+        });
+      });
     },
   },
   created(){
+    this.FillAdditionalSkillsTable();
+    this.FillSkillSetSelect();
   }
 };
 </script>
