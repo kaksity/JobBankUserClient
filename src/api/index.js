@@ -45,4 +45,6 @@ export default new function API() {
   this.PostAdditionalSkills = (params) => request.post('/additional-skills', params);
   this.DeleteAdditionalSkills = (id) => request.delete(`/additional-skills/${id}`);
   this.PostWorkExperience = (params) => request.post('/work-experiences', params);
+  this.GetWorkExperience = () => request.get('/work-experiences');
+  this.DeleteWorkExperiences = (id) => request.delete(`/work-experiences/${id}`);
 }();

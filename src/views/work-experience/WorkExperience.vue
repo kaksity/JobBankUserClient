@@ -206,14 +206,12 @@
                 slot="items"
                 slot-scope="props"
               >
-                <td>{{ props.item.name }}</td>
-                <td>{{ props.item.age }}</td>
-                <td>{{ props.item.address }}</td>
+                <td>{{ props.item.job_title }}</td>
+                <td>{{ props.item.employer }}</td>
+                <td>{{ props.item.start_date }}</td>
+                <td>{{ props.item.end_date }}</td>
                 <td>
-                  <svg-icon
-                    class="drag-handler"
-                    icon-class="drag"
-                  />
+                  <v-icon @click="DeleteWorkExperience (props.item.id)">delete</v-icon>
                 </td>
               </template>
             </v-data-table>
@@ -250,9 +248,8 @@ export default {
         },
         {
           text: 'Employer',
-          value: 'age',
+          employer: 'age',
           sortable: false,
-          value: 'employer'
         },
         {
           text: 'Start Date',
@@ -264,7 +261,7 @@ export default {
           text: 'Stop Date',
           value: 'drag',
           sortable: false,
-          value: 'stop_date'
+          value: 'end_date'
         },
         {
           text: 'Action',
@@ -287,31 +284,31 @@ export default {
       } else if (this.JobTitle === '') {
         this.$message({
           type: 'error',
-          text: 'Employer Name is required'
+          text: 'Job Title is required'
         });
         return;
       } else if (this.CurrentlyWorking === '') {
         this.$message({
           type: 'error',
-          text: 'Employer Name is required'
+          text: 'Currently Working there is required'
         });
         return;
       } else if (this.JobDescription === '') {
         this.$message({
           type: 'error',
-          text: 'Employer Name is required'
+          text: 'Job Description is required'
         });
         return;
       } else if (this.StartWorkingDate === '') {
         this.$message({
           type: 'error',
-          text: 'Employer Name is required'
+          text: 'Start Working Date is required'
         });
         return;
       } else if (this.StopWorkingDate === '') {
         this.$message({
           type: 'error',
-          text: 'Employer Name is required'
+          text: 'Stop Working Date is required'
         });
         return;
       }
@@ -331,7 +328,8 @@ export default {
           type: 'success',
           text: res.message
         });
-
+        this.ClearFields();
+        this.GetAndFillInWorkExperience();
       }).catch((err) => {
         this.$message({
           type: 'error',
@@ -345,25 +343,40 @@ export default {
       if (id === '') {
         return
       }
-      this.LoadingStatus = true
-      deleteWorkExperiences(id).then(res => {
-        this.LoadingStatus = false
-        if (res.success === false) {
-          this.Color = 'error'
-        } else {
-          this.Color = 'success'
-        }
-
-        this.Message = res.message
-        this.Dialog = true
-      })
-
-      setTimeout(() => {
-        location.reload()
-      }, 1000)
+      this.$api.DeleteWorkExperiences(id).then(res => {
+        this.$message({
+          type: 'success',
+          text: res.message
+        });
+        this.GetAndFillInWorkExperience();
+      }).catch((err) => {
+        this.$message({
+          type: 'error',
+          text: res.data.message
+        });
+      });
+    },
+    ClearFields(){
+      this.EmployerName = '';
+      this.JobTitle = '';
+      this.CurrentlyWorking = '';
+      this.JobDescription = '';
+      this.AdditionalInformation = '';
+    },
+    GetAndFillInWorkExperience() {
+      this.$api.GetWorkExperience().then(res => {
+        this.list = res.data;
+      }).catch((err) => {
+        this.$message({
+          type: 'error',
+          text: err.data.message
+        });
+      }).finally(() => {
+      });
     },
   },
   created(){
+    this.GetAndFillInWorkExperience();
   }
 };
 </script>
