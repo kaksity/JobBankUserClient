@@ -383,6 +383,7 @@ export default {
         return;
       }
 
+      //console.log(this.File);
       const Fd = new FormData()
 
       Fd.append('course_name', this.CourseName)
