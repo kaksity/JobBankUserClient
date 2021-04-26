@@ -119,21 +119,20 @@ export default {
     };
   },
   methods: {
-    changeSkill (i) {
+    changeSkill(i) {
       if (i !== '19') {
-        this.SpecifyOthers = false
+        this.SpecifyOthers = false;
       } else {
-        this.SpecifyOthers = true
+        this.SpecifyOthers = true;
       }
     },
     FillSkillSetSelect() {
       this.$api.GetSkillSet().then((res) => {
-
         this.SkillSetList = res.data;
       }).catch((err) => {
         this.$message({
           type: 'error',
-          text: err.message
+          text: err.message,
         });
       });
     },
@@ -143,26 +142,26 @@ export default {
       }).catch((err) => {
         this.$message({
           type: 'error',
-          text: err.data.message
+          text: err.data.message,
         });
       });
     },
-    AddSkill () {
+    AddSkill() {
       // Check if the a Skill has been selected
       if (this.Skill === '') {
         this.$message({
           type: 'error',
-          text: 'Skills Set is required'
+          text: 'Skills Set is required',
         });
         return;
       }
 
       if (this.Skill === '19' && this.OtherSkillName === '') {
-       this.$message({
-         type: 'error',
-         text: 'Specify Other Skills'
-       });
-       return;
+        this.$message({
+          type: 'error',
+          text: 'Specify Other Skills',
+        });
+        return;
       }
 
       let Form = {};
@@ -171,25 +170,25 @@ export default {
         Form = {
           id: this.Skill,
           name: '',
-        }
+        };
       } else {
         Form = {
           id: this.Skill,
           name: this.OtherSkillName,
-        }
+        };
       }
 
-      this.$api.PostAdditionalSkills(Form).then(res => {
+      this.$api.PostAdditionalSkills(Form).then((res) => {
         this.$message({
           type: 'success',
-          text: res.message
+          text: res.message,
         });
         this.FillAdditionalSkillsTable();
         this.ClearFields();
       }).catch((err) => {
         this.$message({
           type: 'error',
-          text: err.data.message
+          text: err.data.message,
         });
       });
     },
@@ -197,25 +196,24 @@ export default {
       this.Skill = '';
       this.OtherSkillName = '';
     },
-    DeleteAdditionalSkill (i) {
-
-      this.$api.DeleteAdditionalSkills(i).then(res => {
+    DeleteAdditionalSkill(i) {
+      this.$api.DeleteAdditionalSkills(i).then((res) => {
         this.$message({
           type: 'success',
-          text: res.message
+          text: res.message,
         });
         this.FillAdditionalSkillsTable();
       }).catch((err) => {
         this.$message({
           type: 'error',
-          text: err.data.message
+          text: err.data.message,
         });
       });
     },
   },
-  created(){
+  created() {
     this.FillAdditionalSkillsTable();
     this.FillSkillSetSelect();
-  }
+  },
 };
 </script>

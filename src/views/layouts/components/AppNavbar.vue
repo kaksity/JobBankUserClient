@@ -56,26 +56,13 @@
             <v-icon>more_vert</v-icon>
           </v-btn>
           <v-list>
-            <v-list-tile @click="toGithub">
+            <v-list-tile @click="GoToChangePassword">
               <v-list-tile-avatar>
-                <svg-icon
-                  style="font-size:21px;"
-                  icon-class="github"
-                />
+                <v-icon>settings</v-icon>
               </v-list-tile-avatar>
               <v-list-tile-content>
                 <v-list-tile-title>
-                  GitHub
-                </v-list-tile-title>
-              </v-list-tile-content>
-            </v-list-tile>
-            <v-list-tile>
-              <v-list-tile-avatar>
-                <v-icon>account_circle</v-icon>
-              </v-list-tile-avatar>
-              <v-list-tile-content>
-                <v-list-tile-title>
-                  {{ $t('common.account') }}
+                  Change Password
                 </v-list-tile-title>
               </v-list-tile-content>
             </v-list-tile>
@@ -129,8 +116,10 @@ export default {
       window.open('https://github.com/vasttian/vue-admin-vuetify');
     },
     logout() {
-      console.log('logout');
       this.$router.push({ name: 'Login' });
+    },
+    GoToChangePassword() {
+      this.$router.push({ name: 'ChangePassword' });
     },
   },
   created() {},

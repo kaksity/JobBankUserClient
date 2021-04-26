@@ -163,37 +163,37 @@ export default {
       if (this.FirstName === '') {
         this.$message({
           type: 'error',
-          text: 'First Name is required'
+          text: 'First Name is required',
         });
         return;
-      } else if (this.LastName === '') {
+      } if (this.LastName === '') {
         this.$message({
           type: 'error',
-          text: 'Last Name is required'
+          text: 'Last Name is required',
         });
         return;
-      } else if (this.EmailAddress === '') {
+      } if (this.EmailAddress === '') {
         this.$message({
           type: 'error',
-          text: 'Email Address is required'
+          text: 'Email Address is required',
         });
         return;
-      } else if (this.PhoneNumber === '') {
+      } if (this.PhoneNumber === '') {
         this.$message({
           type: 'error',
-          text: 'Phone Number is required'
+          text: 'Phone Number is required',
         });
         return;
-      } else if (this.Password === '') {
+      } if (this.Password === '') {
         this.$message({
           type: 'error',
-          text: 'Password is required'
+          text: 'Password is required',
         });
         return;
-      } else if (this.ConfirmPassword === '') {
+      } if (this.ConfirmPassword === '') {
         this.$message({
           type: 'error',
-          text: 'Confirm Password is required'
+          text: 'Confirm Password is required',
         });
         return;
       }
@@ -202,7 +202,7 @@ export default {
       if (this.PhoneNumber.length !== 11) {
         this.$message({
           type: 'error',
-          text: 'Phone Number must be 11 digits'
+          text: 'Phone Number must be 11 digits',
         });
         return;
       }
@@ -211,7 +211,7 @@ export default {
       if (this.Password.length < 8) {
         this.$message({
           type: 'error',
-          text: 'Password length must be 8 or more characters'
+          text: 'Password length must be 8 or more characters',
         });
         return;
       }
@@ -220,12 +220,12 @@ export default {
       if (this.Password !== this.ConfirmPassword) {
         this.$message({
           type: 'error',
-          text: 'Password must match Confirm Password'
+          text: 'Password must match Confirm Password',
         });
         return;
       }
 
-      //this.LoadingStatus = true
+      // this.LoadingStatus = true
 
       // Make a form
       const Form = {
@@ -235,11 +235,11 @@ export default {
         phone_number: this.PhoneNumber,
         password: this.Password,
         confirm_password: this.ConfirmPassword,
-      }
+      };
 
       this.loginLoading = true;
       this.$store
-        .dispatch('Register',Form)
+        .dispatch('Register', Form)
         .then(() => {
           try {
             this.$router.push({ name: 'Login' });
@@ -258,7 +258,7 @@ export default {
         });
     },
     redirectLoginToAnAccount() {
-      //alert();
+      // alert();
       this.$router.push({ path: '/register' });
     },
   },

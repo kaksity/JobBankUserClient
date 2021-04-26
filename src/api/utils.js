@@ -55,10 +55,7 @@ function access(url, param, method) {
     }
 
     return Promise.reject(res);
-  }, (res) => {
-    // Throw it again so you can handle it later.
-    return Promise.reject(res);
-  });
+  }, res => Promise.reject(res));
 }
 
 export default {

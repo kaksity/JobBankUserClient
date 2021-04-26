@@ -255,13 +255,13 @@ export default {
           text: 'Start Date',
           value: 'address',
           sortable: false,
-          value: 'start_date'
+          value: 'start_date',
         },
         {
           text: 'Stop Date',
           value: 'drag',
           sortable: false,
-          value: 'end_date'
+          value: 'end_date',
         },
         {
           text: 'Action',
@@ -274,41 +274,41 @@ export default {
     };
   },
   methods: {
-    AddWorkExperience () {
+    AddWorkExperience() {
       if (this.EmployerName === '') {
         this.$message({
           type: 'error',
-          text: 'Employer Name is required'
+          text: 'Employer Name is required',
         });
         return;
-      } else if (this.JobTitle === '') {
+      } if (this.JobTitle === '') {
         this.$message({
           type: 'error',
-          text: 'Job Title is required'
+          text: 'Job Title is required',
         });
         return;
-      } else if (this.CurrentlyWorking === '') {
+      } if (this.CurrentlyWorking === '') {
         this.$message({
           type: 'error',
-          text: 'Currently Working there is required'
+          text: 'Currently Working there is required',
         });
         return;
-      } else if (this.JobDescription === '') {
+      } if (this.JobDescription === '') {
         this.$message({
           type: 'error',
-          text: 'Job Description is required'
+          text: 'Job Description is required',
         });
         return;
-      } else if (this.StartWorkingDate === '') {
+      } if (this.StartWorkingDate === '') {
         this.$message({
           type: 'error',
-          text: 'Start Working Date is required'
+          text: 'Start Working Date is required',
         });
         return;
-      } else if (this.StopWorkingDate === '') {
+      } if (this.StopWorkingDate === '') {
         this.$message({
           type: 'error',
-          text: 'Stop Working Date is required'
+          text: 'Stop Working Date is required',
         });
         return;
       }
@@ -321,42 +321,42 @@ export default {
         job_title: this.JobTitle,
         organisation: this.EmployerName,
         start_date: this.StartWorkingDate,
-      }
+      };
 
-      this.$api.PostWorkExperience(Form).then(res => {
+      this.$api.PostWorkExperience(Form).then((res) => {
         this.$message({
           type: 'success',
-          text: res.message
+          text: res.message,
         });
         this.ClearFields();
         this.GetAndFillInWorkExperience();
       }).catch((err) => {
         this.$message({
           type: 'error',
-          text: err.data.message
+          text: err.data.message,
         });
       }).finally(() => {
       });
     },
 
-    DeleteWorkExperience (id) {
+    DeleteWorkExperience(id) {
       if (id === '') {
-        return
+        return;
       }
-      this.$api.DeleteWorkExperiences(id).then(res => {
+      this.$api.DeleteWorkExperiences(id).then((res) => {
         this.$message({
           type: 'success',
-          text: res.message
+          text: res.message,
         });
         this.GetAndFillInWorkExperience();
       }).catch((err) => {
         this.$message({
           type: 'error',
-          text: res.data.message
+          text: res.data.message,
         });
       });
     },
-    ClearFields(){
+    ClearFields() {
       this.EmployerName = '';
       this.JobTitle = '';
       this.CurrentlyWorking = '';
@@ -364,19 +364,19 @@ export default {
       this.AdditionalInformation = '';
     },
     GetAndFillInWorkExperience() {
-      this.$api.GetWorkExperience().then(res => {
+      this.$api.GetWorkExperience().then((res) => {
         this.list = res.data;
       }).catch((err) => {
         this.$message({
           type: 'error',
-          text: err.data.message
+          text: err.data.message,
         });
       }).finally(() => {
       });
     },
   },
-  created(){
+  created() {
     this.GetAndFillInWorkExperience();
-  }
+  },
 };
 </script>

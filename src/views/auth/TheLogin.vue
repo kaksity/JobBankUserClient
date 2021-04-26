@@ -132,24 +132,23 @@ export default {
   },
   methods: {
     login() {
-
       if (this.EmailAddress === '') {
-       this.$message({
-         type: 'error',
-         text: 'Email Address is required'
-       });
-       return;
-      }
-      else if (this.Password === '') {
         this.$message({
           type: 'error',
-          text: 'Password is required'
+          text: 'Email Address is required',
         });
         return;
-      } else if (this.Password.length < 8) {
+      }
+      if (this.Password === '') {
         this.$message({
           type: 'error',
-          text: 'Invalid Login Credentials'
+          text: 'Password is required',
+        });
+        return;
+      } if (this.Password.length < 8) {
+        this.$message({
+          type: 'error',
+          text: 'Invalid Login Credentials',
         });
         return;
       }

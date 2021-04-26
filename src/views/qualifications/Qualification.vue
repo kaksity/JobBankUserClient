@@ -299,19 +299,19 @@ export default {
           text: 'Grade',
           value: 'age',
           sortable: false,
-          value: 'grade'
+          value: 'grade',
         },
         {
           text: 'Start Date',
           value: 'address',
           sortable: false,
-          value: 'start_date'
+          value: 'start_date',
         },
         {
           text: 'Stop Date',
           value: 'drag',
           sortable: false,
-          value: 'stop_date'
+          value: 'stop_date',
         },
         {
           text: 'Action',
@@ -324,9 +324,9 @@ export default {
     };
   },
   methods: {
-    setFile (e) {
+    setFile(e) {
       // this.File = e
-      this.File = e
+      this.File = e;
     },
     FillHighestQualificationSelect() {
       this.$api.GetHighestQualification().then((res) => {
@@ -334,84 +334,84 @@ export default {
       }).catch((err) => {
         this.$message({
           type: 'error',
-          text: err.message
+          text: err.message,
         });
       });
     },
-    AddQualification () {
+    AddQualification() {
       if (this.SchoolName === '') {
         this.$message({
           type: 'error',
-          text: 'School Name is required'
+          text: 'School Name is required',
         });
         return;
-      } else if (this.CourseName === '') {
+      } if (this.CourseName === '') {
         this.$message({
           type: 'error',
-          text: 'Course Name is required'
+          text: 'Course Name is required',
         });
         return;
-      } else if (this.EducationLevel === '') {
+      } if (this.EducationLevel === '') {
         this.$message({
           type: 'error',
-          text: 'Qualification is required'
+          text: 'Qualification is required',
         });
         return;
-      } else if (this.Completed === '') {
+      } if (this.Completed === '') {
         this.$message({
           type: 'error',
-          text: 'Completed Status is required'
+          text: 'Completed Status is required',
         });
         return;
-      } else if (this.Grade === '') {
+      } if (this.Grade === '') {
         this.$message({
           type: 'error',
-          text: 'Grade is required'
+          text: 'Grade is required',
         });
         return;
-      } else if (this.File === null) {
+      } if (this.File === null) {
         this.$message({
           type: 'error',
-          text: 'Qualification Photo is required'
+          text: 'Qualification Photo is required',
         });
         return;
-      } else if (this.File.size > 1048576) {
+      } if (this.File.size > 1048576) {
         this.$message({
           type: 'error',
-          text: 'Qualification Photo must be less than 1mb'
+          text: 'Qualification Photo must be less than 1mb',
         });
         return;
       }
 
-      //console.log(this.File);
-      const Fd = new FormData()
+      // console.log(this.File);
+      const Fd = new FormData();
 
-      Fd.append('course_name', this.CourseName)
-      Fd.append('school_name', this.SchoolName)
-      Fd.append('education_level', this.EducationLevel)
-      Fd.append('completed', this.Completed)
-      Fd.append('grade', this.Grade)
-      Fd.append('admission_date', this.AdmissionDate)
-      Fd.append('graduation_date', this.GraduationDate)
-      Fd.append('file', this.File)
-      Fd.append('additional_info', this.AdditionalInfo)
+      Fd.append('course_name', this.CourseName);
+      Fd.append('school_name', this.SchoolName);
+      Fd.append('education_level', this.EducationLevel);
+      Fd.append('completed', this.Completed);
+      Fd.append('grade', this.Grade);
+      Fd.append('admission_date', this.AdmissionDate);
+      Fd.append('graduation_date', this.GraduationDate);
+      Fd.append('file', this.File);
+      Fd.append('additional_info', this.AdditionalInfo);
 
-      this.$api.PostQualifications(Fd).then(res => {
+      this.$api.PostQualifications(Fd).then((res) => {
         this.$message({
           type: 'success',
-          message: res.data.message
+          message: res.data.message,
         });
       }).catch((err) => {
         this.$message({
           type: 'error',
-          text: err.data.message
+          text: err.data.message,
         });
       }).finally(() => {
-      })
+      });
     },
   },
-  created(){
+  created() {
     this.FillHighestQualificationSelect();
-  }
+  },
 };
 </script>

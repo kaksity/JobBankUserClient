@@ -3,7 +3,7 @@ import * as types from './types';
 
 const state = {
   token: localStorage.getItem('token') || null,
-  me: {}
+  me: {},
 };
 
 const getters = {};
@@ -11,18 +11,15 @@ const getters = {};
 const actions = {
   Login({ commit, dispatch }, params) {
     return API.Login(params).then((Value) => {
-
       commit('LoginMutation', Value);
       const token = Value.data.token;
       localStorage.setItem('token', token);
-      //dispatch('readMe', { token });
+      // dispatch('readMe', { token });
       return Value;
     }, res => Promise.reject(res));
   },
   Register({ commit, dispatch }, params) {
-    return API.Register(params).then((value) => {
-      return value;
-    }, res => Promise.reject(res));
+    return API.Register(params).then(value => value, res => Promise.reject(res));
   },
   // readMe({ commit }, params) {
   //   return API.readMe(params).then((value) => {

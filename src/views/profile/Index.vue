@@ -281,7 +281,7 @@ export default {
       }).catch((err) => {
         this.$message({
           type: 'error',
-          text: err.message
+          text: err.message,
         });
       });
     },
@@ -291,7 +291,7 @@ export default {
       }).catch((err) => {
         this.$message({
           type: 'error',
-          text: err.message
+          text: err.message,
         });
       });
     },
@@ -312,81 +312,81 @@ export default {
       }).catch((err) => {
         this.$message({
           type: 'error',
-          text: err.data.message
+          text: err.data.message,
         });
       });
     },
-    UpdateProfile () {
+    UpdateProfile() {
       // Validate all the neccessary fields
       if (this.FirstName === '') {
         this.$message({
           type: 'error',
-          text: 'First Name is required'
+          text: 'First Name is required',
         });
         return;
-      } else if (this.LastName === '') {
+      } if (this.LastName === '') {
         this.$message({
           type: 'error',
-          text: 'Last Name is required'
+          text: 'Last Name is required',
         });
         return;
-      } else if (this.PhoneNumber === '') {
+      } if (this.PhoneNumber === '') {
         this.$message({
           type: 'error',
-          text: 'Phone Number is required'
+          text: 'Phone Number is required',
         });
         return;
-      } else if (this.PhoneNumber.length !== 11) {
+      } if (this.PhoneNumber.length !== 11) {
         this.$message({
           type: 'error',
-          text: 'Phone Number must be 11 digits'
+          text: 'Phone Number must be 11 digits',
         });
         return;
-      } else if (this.DateOfBirth === '') {
+      } if (this.DateOfBirth === '') {
         this.$message({
           type: 'error',
-          text: 'Date of Birth is required'
+          text: 'Date of Birth is required',
         });
         return;
-      } else if (this.Gender === '') {
+      } if (this.Gender === '') {
         this.$message({
           type: 'error',
-          text: 'Gender is required'
+          text: 'Gender is required',
         });
         return;
-      } else if (this.HighestEducationLevel === '') {
+      } if (this.HighestEducationLevel === '') {
         this.$message({
           type: 'error',
-          text: 'Highest Qualification is required'
+          text: 'Highest Qualification is required',
         });
         return;
-      } else if (this.MaritalStatus === '') {
+      } if (this.MaritalStatus === '') {
         this.$message({
           type: 'error',
-          text: 'Marital Status is required'
+          text: 'Marital Status is required',
         });
         return;
-      } else if (this.EmploymentStatus === '') {
+      } if (this.EmploymentStatus === '') {
         this.$message({
           type: 'error',
-          text: 'Employment Status is required'
+          text: 'Employment Status is required',
         });
         return;
-      } else if (this.LGA === '') {
+      } if (this.LGA === '') {
         this.$message({
           type: 'error',
-          text: 'Local Government Area is required'
+          text: 'Local Government Area is required',
         });
         return;
       } else if (this.ContactAddress === '') {
         this.$message({
           type: 'error',
-          text: 'Contact Address is required'
+          text: 'Contact Address is required',
         });
         return;
       }
 
-      //this.LoadingStatus = true
+      // this.LoadingStatus = true
 
       // Construct the form
       const Form = {
@@ -400,27 +400,27 @@ export default {
         lga: this.LGA,
         contact_address: this.ContactAddress,
         additional_info: this.AdditionalInformation,
-      }
+      };
 
-      this.$api.UpdateProfile(Form).then(res => {
+      this.$api.UpdateProfile(Form).then((res) => {
         this.$message({
           text: res.message,
-          type: 'success'
+          type: 'success',
         });
         this.GetAndFillProfile();
       }).catch((err) => {
         this.$message({
           type: 'error',
-          text: err.message
+          text: err.message,
         });
       }).finally(() => {
-      })
+      });
     },
   },
-  created(){
+  created() {
     this.FillLGASelect();
     this.FillHighestQualificationSelect();
     this.GetAndFillProfile();
-  }
+  },
 };
 </script>
