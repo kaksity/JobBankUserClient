@@ -23,13 +23,12 @@
                 xs12
                 sm6
                 md8
-                layout
                 align-center
                 justify-center
                 text-xs-center
               >
                 <v-avatar
-                  :size="256"
+                  :size="400"
                   color="grey lighten-4"
                 >
                   <img
@@ -116,7 +115,10 @@ export default {
         });
         return;
       }
-      this.$api.PutUploadPassport(this.File.currentTarget).then((res) => {
+      const Fd = new FormData();
+      Fd.append('avatar', this.File.target.files[0]);
+
+      this.$api.PutUploadPassport(Fd).then((res) => {
         this.$message({
           type: 'success',
           text: res.message,

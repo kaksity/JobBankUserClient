@@ -246,14 +246,14 @@
                 slot="items"
                 slot-scope="props"
               >
-                <td>{{ props.item.name }}</td>
-                <td>{{ props.item.age }}</td>
-                <td>{{ props.item.address }}</td>
+                <td>{{ props.item.school_name }}</td>
+                <td>{{ props.item.course_name }}</td>
+                <td>{{ props.item.qualification }}</td>
+                <td>{{ props.item.grade }}</td>
+                <td>{{ props.item.admission_date }}</td>
+                <td>{{ props.item.graduation_date }}</td>
                 <td>
-                  <svg-icon
-                    class="drag-handler"
-                    icon-class="drag"
-                  />
+                  <v-icon @click="DeleteQualification(props.item.id)">delete</v-icon>
                 </td>
               </template>
             </v-data-table>
@@ -290,10 +290,22 @@ export default {
 
       headers: [
         {
+          text: 'School Name',
+          align: 'left',
+          sortable: false,
+          value: 'school_name',
+        },
+        {
+          text: 'Course Name',
+          align: 'left',
+          sortable: false,
+          value: 'course_name',
+        },
+        {
           text: 'Qualification',
           align: 'left',
           sortable: false,
-          value: 'name',
+          value: 'qualification',
         },
         {
           text: 'Grade',
@@ -302,16 +314,16 @@ export default {
           value: 'grade',
         },
         {
-          text: 'Start Date',
+          text: 'Admission Date',
           value: 'address',
           sortable: false,
-          value: 'start_date',
+          value: 'admission_date',
         },
         {
-          text: 'Stop Date',
+          text: 'Graduation Date',
           value: 'drag',
           sortable: false,
-          value: 'stop_date',
+          value: 'graduation_date',
         },
         {
           text: 'Action',
@@ -385,7 +397,6 @@ export default {
         return;
       }
 
-      // console.log(this.File);
       const Fd = new FormData();
 
       Fd.append('course_name', this.CourseName);
@@ -395,14 +406,15 @@ export default {
       Fd.append('grade', this.Grade);
       Fd.append('admission_date', this.AdmissionDate);
       Fd.append('graduation_date', this.GraduationDate);
-      Fd.append('file', this.File);
+      Fd.append('file', this.File.target.files[0]);
       Fd.append('additional_info', this.AdditionalInfo);
 
       this.$api.PostQualifications(Fd).then((res) => {
         this.$message({
           type: 'success',
-          message: res.data.message,
+          text: res.message,
         });
+        this.GetAllQualifications();
       }).catch((err) => {
         this.$message({
           type: 'error',
@@ -411,9 +423,35 @@ export default {
       }).finally(() => {
       });
     },
+    GetAllQualifications() {
+      this.$api.GetQualifications().then((res) => {
+        this.list = res.data;
+      }).catch((err) => {
+        this.$message({
+          type: 'error',
+          text: err.data.message,
+        });
+      });
+    },
+    DeleteQualification(id) {
+      this.$api.DeleteQualification(id).then((res) => {
+        this.$message({
+          type: 'success',
+          text: res.message,
+        });
+        this.GetAllQualifications();
+
+      }).catch((err) => {
+        this.$message({
+          type: 'error',
+          text: err.data.message,
+        });
+      });
+    }
   },
   created() {
     this.FillHighestQualificationSelect();
+    this.GetAllQualifications();
   },
 };
 </script>
