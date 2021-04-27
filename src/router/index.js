@@ -62,6 +62,14 @@ export default new Router({
       },
     },
     {
+      path: '/photo',
+      name: 'Photo',
+      component: () => import('@/views/photo/Photo.vue'),
+      meta: {
+        icon: 'dashboard',
+      },
+    },
+    {
       path: '/qualifications',
       name: 'Qualification',
       component: () => import('@/views/qualifications/Qualification.vue'),

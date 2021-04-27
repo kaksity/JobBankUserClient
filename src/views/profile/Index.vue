@@ -378,7 +378,7 @@ export default {
           text: 'Local Government Area is required',
         });
         return;
-      } else if (this.ContactAddress === '') {
+      } if (this.ContactAddress === '') {
         this.$message({
           type: 'error',
           text: 'Contact Address is required',

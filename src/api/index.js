@@ -48,4 +48,6 @@ export default new function API() {
   this.GetWorkExperience = () => request.get('/work-experiences');
   this.DeleteWorkExperiences = id => request.delete(`/work-experiences/${id}`);
   this.PutChangePassword = params => request.put('/change-password', params);
+  this.GetPassport = () => request.get('/passport');
+  this.PutUploadPassport = params => request.put('/passport', params);
 }();

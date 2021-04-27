@@ -266,7 +266,7 @@
 
 <script>
 export default {
-  name: 'VBarIndex',
+  name: 'Qualification',
   data() {
     return {
       AdmissionDate: new Date().toISOString().substr(0, 10),
@@ -369,13 +369,15 @@ export default {
           text: 'Grade is required',
         });
         return;
-      } if (this.File === null) {
+      }
+      if (this.File === null) {
         this.$message({
           type: 'error',
           text: 'Qualification Photo is required',
         });
         return;
-      } if (this.File.size > 1048576) {
+      }
+      if (this.File.size > 1048576) {
         this.$message({
           type: 'error',
           text: 'Qualification Photo must be less than 1mb',
